@@ -1,0 +1,46 @@
+{
+    "name": "toyi/mjml-builder",
+    "description": "Easily build emails using PHP and MJML.",
+    "keywords": ["mjml", "php", "emails", "builder"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anthony Aslangul",
+            "email": "anthony.aslangul@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "illuminate/support": "^9.34",
+        "myclabs/deep-copy": "^1.11",
+        "ramsey/uuid": "^4.5",
+        "shanethehat/pretty-xml": "^1.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.2",
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Toyi\\MjmlBuilder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Toyi\\MjmlBuilder\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.0.2"
+        }
+    },
+    "scripts": {
+        "pint" : "./vendor/bin/pint --preset laravel"
+    }
+}
