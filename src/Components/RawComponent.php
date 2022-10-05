@@ -2,10 +2,10 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Contracts\EndingTagContract;
-
-class RawComponent extends ComponentAbstract implements EndingTagContract
+class RawComponent extends ComponentAbstract
 {
+    protected bool $isEndingTag = true;
+
     protected function getContent(): ?string
     {
         return $this->content;

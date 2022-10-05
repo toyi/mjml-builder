@@ -2,8 +2,7 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Contracts\EndingTagContract;
-
-class AccordionTitleComponent extends ComponentAbstract implements EndingTagContract
+class AccordionTitleComponent extends ComponentAbstract
 {
+    protected bool $isEndingTag = true;
 }

@@ -2,11 +2,12 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Contracts\EndingTagContract;
 use Toyi\MjmlBuilder\Utils\ArrayToInlineAttributes;
 
-class TableComponent extends ComponentAbstract implements EndingTagContract
+class TableComponent extends ComponentAbstract
 {
+    protected bool $isEndingTag = true;
+
     protected bool $alreadyHasARow = false;
 
     protected function normalizeCell(array|string $cell): array

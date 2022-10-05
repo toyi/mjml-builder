@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Toyi\MjmlBuilder\Blade\Directive;
 use Toyi\MjmlBuilder\Blade\ForeachDirective;
 use Toyi\MjmlBuilder\Blade\If\IfDirective;
-use Toyi\MjmlBuilder\Contracts\EndingTagContract;
 
 abstract class ComponentAbstract
 {
@@ -23,6 +22,8 @@ abstract class ComponentAbstract
     protected array $childrenToPreprend = [];
 
     protected array $childrenToAppend = [];
+
+    protected bool $isEndingTag = false;
 
     protected ?ComponentAbstract $parent = null;
 
@@ -98,7 +99,7 @@ abstract class ComponentAbstract
 
     public function isEndingTag(): bool
     {
-        return $this instanceof EndingTagContract;
+        return $this->isEndingTag;
     }
 
     public function getId(): string
