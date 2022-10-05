@@ -3,14 +3,17 @@
 namespace Toyi\MjmlBuilder;
 
 use DeepCopy\DeepCopy;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use PrettyXml\Formatter;
 use Toyi\MjmlBuilder\Components\BodyComponent;
 use Toyi\MjmlBuilder\Components\HeadComponent;
 use Toyi\MjmlBuilder\Components\MjmlComponent;
+use Toyi\MjmlBuilder\Utils\ArrayToInlineAttributes;
 
-class MjmlBuilder
+class MjmlBuilder implements Jsonable, Arrayable
 {
-    protected MjmlComponent $root;
+    protected MjmlComponent $mjml;
 
     protected HeadComponent $head;
 
@@ -18,9 +21,9 @@ class MjmlBuilder
 
     public function __construct()
     {
-        $this->root = new MjmlComponent();
-        $this->head = (new HeadComponent())->setParent($this->root);
-        $this->body = (new BodyComponent())->setParent($this->root);
+        $this->mjml = new MjmlComponent();
+        $this->head = (new HeadComponent())->setParent($this->mjml);
+        $this->body = (new BodyComponent())->setParent($this->mjml);
 
         $this->configure();
     }
@@ -43,7 +46,7 @@ class MjmlBuilder
 
     final public function root(): MjmlComponent
     {
-        return $this->root;
+        return $this->mjml;
     }
 
     final public function head(): HeadComponent

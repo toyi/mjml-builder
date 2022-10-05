@@ -33,9 +33,4 @@ class AttributesComponent extends ComponentAbstract
 
         return $this;
     }
-
-    protected function tagName(): string
-    {
-        return 'mj-attributes';
-    }
 }

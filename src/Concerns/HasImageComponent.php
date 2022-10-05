@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder\Traits;
+namespace Toyi\MjmlBuilder\Concerns;
 
 use Exception;
 use Toyi\MjmlBuilder\Components\ImageComponent;

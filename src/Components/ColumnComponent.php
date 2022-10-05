@@ -2,10 +2,10 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Traits\HasButtonComponent;
-use Toyi\MjmlBuilder\Traits\HasChildren;
-use Toyi\MjmlBuilder\Traits\HasImageComponent;
-use Toyi\MjmlBuilder\Traits\HasTextComponent;
+use Toyi\MjmlBuilder\Concerns\HasButtonComponent;
+use Toyi\MjmlBuilder\Concerns\HasChildren;
+use Toyi\MjmlBuilder\Concerns\HasImageComponent;
+use Toyi\MjmlBuilder\Concerns\HasTextComponent;
 
 class ColumnComponent extends ComponentAbstract
 {
@@ -13,11 +13,6 @@ class ColumnComponent extends ComponentAbstract
     use HasButtonComponent;
     use HasImageComponent;
     use HasChildren;
-
-    protected function tagName(): string
-    {
-        return 'mj-column';
-    }
 
     public function table(array $attributes = []): TableComponent
     {

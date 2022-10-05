@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder;
+namespace Toyi\MjmlBuilder\Utils;
 
 class ArrayToInlineAttributes
 {
@@ -18,13 +18,13 @@ class ArrayToInlineAttributes
         foreach ($this->attributes as $key => $value) {
             if (is_array($value)) {
                 $styles = $value;
-                $value = "";
+                $value = '';
                 foreach ($styles as $k => $v) {
                     $value .= "$k:$v;";
                 }
             }
 
-            $attributes[$key] = $key . '="' . $value . '"';
+            $attributes[$key] = $key.'="'.$value.'"';
         }
 
         return implode(' ', $attributes);

@@ -1,7 +1,9 @@
-<?php namespace Toyi\MjmlBuilder\Tests\Unit;
+<?php
 
-use Toyi\MjmlBuilder\ArrayToCss;
+namespace Toyi\MjmlBuilder\Tests\Unit;
+
 use Toyi\MjmlBuilder\Tests\TestCase;
+use Toyi\MjmlBuilder\Utils\ArrayToCss;
 
 class ArrayToCssTest extends TestCase
 {
@@ -9,12 +11,12 @@ class ArrayToCssTest extends TestCase
     {
         $array = [
             '#uniqueid' => [
-                'background' => 'yellow'
+                'background' => 'yellow',
             ],
             '.class' => [
                 'font-size' => '10px',
-                'display' => 'none'
-            ]
+                'display' => 'none',
+            ],
         ];
 
         $expected = '#uniqueid{background:yellow;} .class{font-size:10px;display:none;}';

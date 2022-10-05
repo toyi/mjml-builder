@@ -1,7 +1,9 @@
-<?php namespace Toyi\MjmlBuilder\Tests\Unit;
+<?php
+
+namespace Toyi\MjmlBuilder\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Toyi\MjmlBuilder\ArrayToInlineAttributes;
+use Toyi\MjmlBuilder\Utils\ArrayToInlineAttributes;
 
 class ArrayToInlineAttributesTest extends TestCase
 {
@@ -13,8 +15,8 @@ class ArrayToInlineAttributesTest extends TestCase
             'styles' => [
                 'background' => 'yellow',
                 'font-size' => '10px',
-                'display' => 'none'
-            ]
+                'display' => 'none',
+            ],
         ];
 
         $expected = 'color="red" padding="25px 20px" styles="background:yellow;font-size:10px;display:none;"';

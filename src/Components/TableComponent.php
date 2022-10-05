@@ -2,18 +2,12 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\ArrayToInlineAttributes;
+use Toyi\MjmlBuilder\Contracts\EndingTagContract;
+use Toyi\MjmlBuilder\Utils\ArrayToInlineAttributes;
 
-class TableComponent extends ComponentAbstract
+class TableComponent extends ComponentAbstract implements EndingTagContract
 {
-    public bool $isPlain = true;
-
     protected bool $alreadyHasARow = false;
-
-    protected function tagName(): string
-    {
-        return 'mj-table';
-    }
 
     protected function normalizeCell(array|string $cell): array
     {

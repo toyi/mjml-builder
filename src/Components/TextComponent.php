@@ -2,12 +2,8 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-class TextComponent extends ComponentAbstract
-{
-    protected bool $isPlain = true;
+use Toyi\MjmlBuilder\Contracts\EndingTagContract;
 
-    protected function tagName(): string
-    {
-        return 'mj-text';
-    }
+class TextComponent extends ComponentAbstract implements EndingTagContract
+{
 }

@@ -2,14 +2,9 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Traits\HasSectionComponent;
+use Toyi\MjmlBuilder\Concerns\HasSectionComponent;
 
 class WrapperComponent extends ComponentAbstract
 {
     use HasSectionComponent;
-
-    protected function tagName(): string
-    {
-        return 'mj-wrapper';
-    }
 }

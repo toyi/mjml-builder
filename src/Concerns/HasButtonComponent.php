@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder\Traits;
+namespace Toyi\MjmlBuilder\Concerns;
 
 use Toyi\MjmlBuilder\Components\ButtonComponent;
 

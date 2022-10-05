@@ -40,7 +40,7 @@ abstract class Directive
         }
 
         if ($parent) {
-            if ($parent->isPlain()) {
+            if ($parent->isEndingTag()) {
                 $parent->content .= $str;
             } elseif ($raw) {
                 $parent->raw($str);

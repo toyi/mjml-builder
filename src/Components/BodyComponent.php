@@ -2,18 +2,13 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Traits\HasChildren;
-use Toyi\MjmlBuilder\Traits\HasSectionComponent;
-use Toyi\MjmlBuilder\Traits\HasWrapperComponent;
+use Toyi\MjmlBuilder\Concerns\HasChildren;
+use Toyi\MjmlBuilder\Concerns\HasSectionComponent;
+use Toyi\MjmlBuilder\Concerns\HasWrapperComponent;
 
 class BodyComponent extends ComponentAbstract
 {
     use HasWrapperComponent;
     use HasSectionComponent;
     use HasChildren;
-
-    protected function tagName(): string
-    {
-        return 'mj-body';
-    }
 }

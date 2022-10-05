@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder;
+namespace Toyi\MjmlBuilder\Utils;
 
 class ArrayToCss
 {

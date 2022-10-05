@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Toyi\MjmlBuilder\Blade\Directive;
 use Toyi\MjmlBuilder\Blade\ForeachDirective;
 use Toyi\MjmlBuilder\Blade\If\IfDirective;
+use Toyi\MjmlBuilder\Contracts\EndingTagContract;
 
 abstract class ComponentAbstract
 {
@@ -17,19 +18,16 @@ abstract class ComponentAbstract
 
     public array $children = [];
 
-    protected bool $isPlain = false;
-
     protected array $attributes = [];
 
     protected ?ComponentAbstract $parent = null;
 
     public function __construct(
-        array             $attributes = [],
+        array $attributes = [],
         null|string|array $content = null,
-        ?self             $parent = null,
-        string            $id = null
-    )
-    {
+        ?self $parent = null,
+        string $id = null
+    ) {
         $this->parent = $parent;
         $this->content = $content;
         $this->attributes = $attributes;
@@ -44,9 +42,9 @@ abstract class ComponentAbstract
         return Str::of(static::class)->classBasename()->replaceLast('Component', '')->kebab()->prepend('mj-')->toString();
     }
 
-    public function isPlain(): bool
+    public function isEndingTag(): bool
     {
-        return $this->isPlain;
+        return $this instanceof EndingTagContract;
     }
 
     public function getId(): string
@@ -89,7 +87,7 @@ abstract class ComponentAbstract
     public function setAttributes(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
-            if (!is_int($key)) {
+            if (! is_int($key)) {
                 continue;
             }
 
@@ -124,8 +122,8 @@ abstract class ComponentAbstract
 
     protected function getContent(): ?string
     {
-        $content = (array)$this->content;
-        $content = array_filter($content, fn(?string $content) => $content !== null);
+        $content = (array) $this->content;
+        $content = array_filter($content, fn (?string $content) => $content !== null);
 
         return implode('<br/>', $content);
     }
@@ -147,7 +145,7 @@ abstract class ComponentAbstract
 
     public function directive(Directive $directive): self
     {
-        if ($this->isPlain()) {
+        if ($this->isEndingTag()) {
             $directive->inline();
         }
 
@@ -162,7 +160,7 @@ abstract class ComponentAbstract
     public function push(self|string $child): self
     {
         if (is_string($child)) {
-            if (!class_exists($child)) {
+            if (! class_exists($child)) {
                 throw new Exception("Class $child doesn't exist.");
             }
             $child = new $child();
@@ -185,7 +183,7 @@ abstract class ComponentAbstract
         return array_filter([
             'tagName' => $this->tagName(),
             'attributes' => $this->attributes,
-            'children' => array_map(fn($child) => array_filter($child->toMjmlArray()), $this->children),
+            'children' => array_map(fn ($child) => array_filter($child->toMjmlArray()), $this->children),
             'content' => $this->getContent(),
         ]);
     }

@@ -2,10 +2,8 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-class ButtonComponent extends ComponentAbstract
+use Toyi\MjmlBuilder\Contracts\EndingTagContract;
+
+class ButtonComponent extends ComponentAbstract implements EndingTagContract
 {
-    protected function tagName(): string
-    {
-        return 'mj-button';
-    }
 }

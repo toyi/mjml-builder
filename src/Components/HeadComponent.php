@@ -2,7 +2,7 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\ArrayToCss;
+use Toyi\MjmlBuilder\Utils\ArrayToCss;
 
 class HeadComponent extends ComponentAbstract
 {
@@ -24,10 +24,5 @@ class HeadComponent extends ComponentAbstract
     public function style(array $content, array $attributes = [], string $component_id = null): StyleComponent
     {
         return new StyleComponent($attributes, new ArrayToCss($content), $this, $component_id);
-    }
-
-    protected function tagName(): string
-    {
-        return 'mj-head';
     }
 }

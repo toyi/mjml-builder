@@ -3,7 +3,6 @@
 namespace Toyi\MjmlBuilder\Blade\If;
 
 use Closure;
-use stdClass;
 use Toyi\MjmlBuilder\Blade\Directive;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
