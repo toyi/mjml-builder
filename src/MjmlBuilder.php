@@ -3,15 +3,12 @@
 namespace Toyi\MjmlBuilder;
 
 use DeepCopy\DeepCopy;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use PrettyXml\Formatter;
 use Toyi\MjmlBuilder\Components\BodyComponent;
 use Toyi\MjmlBuilder\Components\HeadComponent;
 use Toyi\MjmlBuilder\Components\MjmlComponent;
 use Toyi\MjmlBuilder\Utils\ArrayToInlineAttributes;
 
-class MjmlBuilder implements Jsonable, Arrayable
+class MjmlBuilder
 {
     protected MjmlComponent $mjml;
 
@@ -69,7 +66,7 @@ class MjmlBuilder implements Jsonable, Arrayable
         return (new DeepCopy())->copy($this)->mjml()->toMjmlArray();
     }
 
-    public function toMjml(bool $pretty = false)
+    public function toMjml()
     {
         $tree = [$this->toArray()];
 
@@ -89,12 +86,6 @@ class MjmlBuilder implements Jsonable, Arrayable
             return "<$tagName $attributes>$content</$tagName>";
         };
 
-        $mjml = $tagToString($tree[0]);
-
-        if ($pretty) {
-            $mjml = e((new Formatter())->format($mjml));
-        }
-
-        return $mjml;
+        return $tagToString($tree[0]);
     }
 }

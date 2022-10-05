@@ -31,7 +31,7 @@ abstract class Directive
     {
         $tag = "\n$tag\n";
 
-        if (!$this->inline) {
+        if (! $this->inline) {
             $tag = $this->ignoreContent($tag);
             $tag .= '&nbsp;';
         }

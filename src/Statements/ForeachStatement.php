@@ -12,12 +12,11 @@ class ForeachStatement extends Directive
     protected ?ComponentAbstract $parent = null;
 
     public function __construct(
-        protected string  $iterable,
+        protected string $iterable,
         protected Closure $loop,
-        protected string  $value = 'value',
-        protected string  $key = 'key'
-    )
-    {
+        protected string $value = 'value',
+        protected string $key = 'key'
+    ) {
     }
 
     public function empty(Closure $closure): self
@@ -34,17 +33,17 @@ class ForeachStatement extends Directive
         if ($this->empty) {
             $str .= $this->tag("<?php if(count($this->iterable) === 0){ ?>", $parent);
             $str .= $this->push(($this->empty)($parent), $parent);
-            $str .= $this->tag("<?php }else{ ?>", $parent);
+            $str .= $this->tag('<?php }else{ ?>', $parent);
         }
 
         $str .= $this->tag("<?php foreach($this->iterable as $$this->key => $$this->value){ ?>", $parent);
 
         $str .= $this->push(($this->loop)($parent), $parent);
 
-        $str .= $this->tag("<?php } ?>", $parent);
+        $str .= $this->tag('<?php } ?>', $parent);
 
         if ($this->empty) {
-            $str .= $this->tag("<?php } ?>", $parent);
+            $str .= $this->tag('<?php } ?>', $parent);
         }
 
         return $str;

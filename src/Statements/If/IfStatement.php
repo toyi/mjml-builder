@@ -3,8 +3,8 @@
 namespace Toyi\MjmlBuilder\Statements\If;
 
 use Closure;
-use Toyi\MjmlBuilder\Statements\Directive;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
+use Toyi\MjmlBuilder\Statements\Directive;
 
 class IfStatement extends Directive
 {

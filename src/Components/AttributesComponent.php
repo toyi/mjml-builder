@@ -3,6 +3,7 @@
 namespace Toyi\MjmlBuilder\Components;
 
 use Illuminate\Support\Str;
+use Jawira\CaseConverter\Convert;
 
 class AttributesComponent extends ComponentAbstract
 {
@@ -23,13 +24,11 @@ class AttributesComponent extends ComponentAbstract
         return $this->apply('mj-class', $attributes);
     }
 
-    public function apply(string $component_name, array $attributes = []): self
+    public function apply(string $componentName, array $attributes = []): self
     {
-        $basename = Str::of($component_name)->replaceFirst('mj-', '')->studly()->toString();
-        $component = Str::of(static::class)->replace(
-            Str::of(static::class)->classBasename(),
-            $basename.'Component'
-        )->toString();
+        $componentName = (new Convert(str_replace('mj-', '', $componentName)))->toPascal();
+        $basename = class_basename($this);
+        $component = str_replace($basename, $componentName, static::class).'Component';
 
         /**
          * @var ComponentAbstract $component

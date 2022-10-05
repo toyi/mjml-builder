@@ -4,7 +4,6 @@ namespace Toyi\MjmlBuilder\Components;
 
 use Closure;
 use Exception;
-use Illuminate\Support\Str;
 use Toyi\MjmlBuilder\Statements\Directive;
 use Toyi\MjmlBuilder\Statements\ForeachStatement;
 use Toyi\MjmlBuilder\Statements\If\IfStatement;
@@ -106,7 +105,7 @@ abstract class ComponentAbstract
 
     public function setId(string $id = null): self
     {
-        $this->id = $id ?: Str::uuid();
+        $this->id = $id ?: uniqid('', true);
 
         return $this;
     }

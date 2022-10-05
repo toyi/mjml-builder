@@ -12,10 +12,8 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "illuminate/support": "^9.34",
-        "myclabs/deep-copy": "^1.11",
-        "ramsey/uuid": "^4.5",
-        "shanethehat/pretty-xml": "^1.0"
+        "jawira/case-converter": "^3.5",
+        "myclabs/deep-copy": "^1.11"
     },
     "require-dev": {
         "laravel/pint": "^1.2",
