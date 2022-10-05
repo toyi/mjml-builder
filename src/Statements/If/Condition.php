@@ -1,11 +1,11 @@
 <?php
 
-namespace Toyi\MjmlBuilder\Blade\If;
+namespace Toyi\MjmlBuilder\Statements\If;
 
 use Closure;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
-class IfStatement
+class Condition
 {
     public function __construct(
         protected Closure|string|array $success,

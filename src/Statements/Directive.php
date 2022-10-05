@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder\Blade;
+namespace Toyi\MjmlBuilder\Statements;
 
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
@@ -22,11 +22,17 @@ abstract class Directive
         return $this;
     }
 
+    protected function ignoreContent(string $content): string
+    {
+        return "<!-- htmlmin:ignore -->$content<!-- htmlmin:ignore -->";
+    }
+
     protected function tag(string $tag, ComponentAbstract $parent = null): string
     {
         $tag = "\n$tag\n";
 
-        if (! $this->inline) {
+        if (!$this->inline) {
+            $tag = $this->ignoreContent($tag);
             $tag .= '&nbsp;';
         }
 

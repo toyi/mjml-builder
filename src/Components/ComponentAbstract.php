@@ -5,9 +5,9 @@ namespace Toyi\MjmlBuilder\Components;
 use Closure;
 use Exception;
 use Illuminate\Support\Str;
-use Toyi\MjmlBuilder\Blade\Directive;
-use Toyi\MjmlBuilder\Blade\ForeachDirective;
-use Toyi\MjmlBuilder\Blade\If\IfDirective;
+use Toyi\MjmlBuilder\Statements\Directive;
+use Toyi\MjmlBuilder\Statements\ForeachStatement;
+use Toyi\MjmlBuilder\Statements\If\IfStatement;
 
 abstract class ComponentAbstract
 {
@@ -165,12 +165,12 @@ abstract class ComponentAbstract
         return new RawComponent($attributes, $content, $this);
     }
 
-    public function if(IfDirective $if): self
+    public function if(IfStatement $if): self
     {
         return $this->directive($if);
     }
 
-    public function foreach(ForeachDirective $foreach): self
+    public function foreach(ForeachStatement $foreach): self
     {
         return $this->directive($foreach);
     }
