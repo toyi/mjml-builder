@@ -44,7 +44,7 @@ class MjmlBuilder implements Jsonable, Arrayable
         $this->configureBody($this->body());
     }
 
-    final public function root(): MjmlComponent
+    final public function mjml(): MjmlComponent
     {
         return $this->mjml;
     }
@@ -66,7 +66,7 @@ class MjmlBuilder implements Jsonable, Arrayable
 
     public function toArray()
     {
-        return (new DeepCopy())->copy($this)->root->toMjmlArray();
+        return (new DeepCopy())->copy($this)->mjml()->toMjmlArray();
     }
 
     public function toMjml(bool $pretty = false)
