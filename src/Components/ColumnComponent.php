@@ -3,7 +3,6 @@
 namespace Toyi\MjmlBuilder\Components;
 
 use Toyi\MjmlBuilder\Concerns\HasButtonComponent;
-use Toyi\MjmlBuilder\Concerns\HasChildren;
 use Toyi\MjmlBuilder\Concerns\HasImageComponent;
 use Toyi\MjmlBuilder\Concerns\HasTextComponent;
 
@@ -12,7 +11,6 @@ class ColumnComponent extends ComponentAbstract
     use HasTextComponent;
     use HasButtonComponent;
     use HasImageComponent;
-    use HasChildren;
 
     public function table(array $attributes = []): TableComponent
     {

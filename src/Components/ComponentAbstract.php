@@ -16,9 +16,13 @@ abstract class ComponentAbstract
 
     protected string $id;
 
-    public array $children = [];
-
     protected array $attributes = [];
+
+    protected array $children = [];
+
+    protected array $childrenToPreprend = [];
+
+    protected array $childrenToAppend = [];
 
     protected ?ComponentAbstract $parent = null;
 
@@ -40,6 +44,56 @@ abstract class ComponentAbstract
     protected function tagName(): string
     {
         return Str::of(static::class)->classBasename()->replaceLast('Component', '')->kebab()->prepend('mj-')->toString();
+    }
+
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
+    public function pushChild(ComponentAbstract $child): self
+    {
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    public function prepend(ComponentAbstract $component, string $id = null): self
+    {
+        $this->childrenToPreprend[$id] = $this->addChild($component, $id);
+
+        return $this;
+    }
+
+    public function append(ComponentAbstract $component, string $id = null): self
+    {
+        $this->childrenToAppend[$id] = $this->addChild($component, $id);
+
+        return $this;
+    }
+
+    private function addChild(ComponentAbstract $component, string $id = null): ComponentAbstract
+    {
+        return $component->setId($id)->setParent($this, false);
+    }
+
+    private function remove(array &$pool, string $id): ComponentAbstract
+    {
+        $component = $pool[$id];
+        $component->setParent(null);
+        unset($pool[$id]);
+
+        return $component;
+    }
+
+    public function removePrependedChild(string $id): ComponentAbstract
+    {
+        return $this->remove($this->childrenToPreprend, $id);
+    }
+
+    public function removeAppendedChild(string $id): ComponentAbstract
+    {
+        return $this->remove($this->childrenToAppend, $id);
     }
 
     public function isEndingTag(): bool
@@ -64,7 +118,7 @@ abstract class ComponentAbstract
         return $this->parent;
     }
 
-    public function setParent(?self $parent, bool $pushToChildren = true): self
+    public function setParent(?ComponentAbstract $parent, bool $pushToChildren = true): self
     {
         if ($parent === null) {
             return $this;
@@ -73,7 +127,7 @@ abstract class ComponentAbstract
         $this->parent = $parent;
 
         if ($pushToChildren) {
-            $parent->children[] = $this;
+            $parent->pushChild($this);
         }
 
         return $this;
@@ -98,26 +152,6 @@ abstract class ComponentAbstract
         $this->attributes = $attributes;
 
         return $this;
-    }
-
-    public function findChildByComponentId(string $component_id): ?self
-    {
-        /**
-         * @throws Exception
-         */
-        $find_child_recursive = function (array $children) use ($component_id, &$find_child_recursive): ?self {
-            foreach ($children as $child) {
-                if ($child->id === $component_id) {
-                    return $child;
-                }
-
-                return $find_child_recursive($child->children);
-            }
-
-            throw new Exception("Unable to find component $component_id.");
-        };
-
-        return $find_child_recursive($this->children);
     }
 
     protected function getContent(): ?string
@@ -180,10 +214,18 @@ abstract class ComponentAbstract
 
     public function toMjmlArray(): array
     {
+        foreach ($this->childrenToPreprend as $child) {
+            array_unshift($this->children, $child);
+        }
+
+        foreach ($this->childrenToAppend as $child) {
+            $this->children[] = $child;
+        }
+
         return array_filter([
             'tagName' => $this->tagName(),
             'attributes' => $this->attributes,
-            'children' => array_map(fn ($child) => array_filter($child->toMjmlArray()), $this->children),
+            'children' => array_map(fn ($child) => array_filter($child->toMjmlArray()), $this->getChildren()),
             'content' => $this->getContent(),
         ]);
     }
