@@ -11,23 +11,27 @@ class MjmlComponent extends ComponentAbstract
         return 'mjml';
     }
 
-    public function findChildById(string $component_id): ?self
+    public function findChildById(string $id): ?ComponentAbstract
     {
         /**
          * @throws Exception
          */
-        $find_child_recursive = function (array $children) use ($component_id, &$find_child_recursive): ?self {
+        $fct = function (array $children) use ($id, &$fct) {
             foreach ($children as $child) {
-                if ($child->id === $component_id) {
+                if ($child->id === $id) {
                     return $child;
                 }
 
-                return $find_child_recursive($child->getChildren());
+                $res = $fct($child->getChildren());
+
+                if ($res !== null) {
+                    return $res;
+                }
             }
 
-            throw new Exception("Unable to find component $component_id.");
+            return null;
         };
 
-        return $find_child_recursive($this->getChildren());
+        return $fct($this->getChildren());
     }
 }

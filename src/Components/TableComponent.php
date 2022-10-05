@@ -10,6 +10,11 @@ class TableComponent extends ComponentAbstract
 
     protected bool $alreadyHasARow = false;
 
+    protected function tagName(): string
+    {
+        return 'mj-table';
+    }
+
     protected function normalizeCell(array|string $cell): array
     {
         if (is_string($cell)) {

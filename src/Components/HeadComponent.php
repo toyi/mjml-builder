@@ -6,23 +6,43 @@ use Toyi\MjmlBuilder\Utils\ArrayToCss;
 
 class HeadComponent extends ComponentAbstract
 {
-    public function title(array|string $content, array $attributes = [], string $component_id = null): TitleComponent
+    protected function tagName(): string
     {
-        return new TitleComponent($attributes, $content, $this, $component_id);
+        return 'mj-head';
     }
 
-    public function preview(array|string $content, array $attributes = [], string $component_id = null): PreviewComponent
+    public function title(string $content, string $id = null): TitleComponent
     {
-        return new PreviewComponent($attributes, $content, $this, $component_id);
+        return new TitleComponent([], $content, $this, $id);
     }
 
-    public function attributes(array $attributes = [], string $component_id = null): AttributesComponent
+    public function preview(string $content, string $id = null): PreviewComponent
     {
-        return new AttributesComponent($attributes, null, $this, $component_id);
+        return new PreviewComponent([], $content, $this, $id);
     }
 
-    public function style(array $content, array $attributes = [], string $component_id = null): StyleComponent
+    public function breakpoint(float $width, string $id = null): BreakpointComponent
     {
-        return new StyleComponent($attributes, new ArrayToCss($content), $this, $component_id);
+        return new BreakpointComponent(['width' => $width], null, $this, $id);
+    }
+
+    public function font(string $name, string $href, string $id = null): FontComponent
+    {
+        return new FontComponent(['name' => $name, 'href' => $href], null, $this, $id);
+    }
+
+    public function htmlAttributes(array $attributes = [], string $id = null): HtmlAttributesComponent
+    {
+        return new HtmlAttributesComponent($attributes, null, $this, $id);
+    }
+
+    public function attributes(array $attributes = [], string $id = null): AttributesComponent
+    {
+        return new AttributesComponent($attributes, null, $this, $id);
+    }
+
+    public function style(array $content, array $attributes = [], string $id = null): StyleComponent
+    {
+        return new StyleComponent($attributes, new ArrayToCss($content), $this, $id);
     }
 }

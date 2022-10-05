@@ -2,11 +2,21 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Concerns\HasSectionComponent;
-use Toyi\MjmlBuilder\Concerns\HasWrapperComponent;
+use Toyi\MjmlBuilder\Children\HasHeroComponent;
+use Toyi\MjmlBuilder\Children\HasSectionComponent;
 
 class BodyComponent extends ComponentAbstract
 {
-    use HasWrapperComponent;
     use HasSectionComponent;
+    use HasHeroComponent;
+
+    protected function tagName(): string
+    {
+        return 'mj-body';
+    }
+
+    public function wrapper(array $attributes = [], string $id = null): WrapperComponent
+    {
+        return new WrapperComponent($attributes, null, $this, $id);
+    }
 }

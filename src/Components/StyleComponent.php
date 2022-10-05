@@ -10,4 +10,9 @@ class StyleComponent extends ComponentAbstract
     {
         parent::__construct($attributes, (string) $content, $parent, $id);
     }
+
+    protected function tagName(): string
+    {
+        return 'mj-style';
+    }
 }

@@ -4,5 +4,8 @@ namespace Toyi\MjmlBuilder\Components;
 
 class AccordionElementComponent extends ComponentAbstract
 {
-    protected bool $isEndingTag = true;
+    protected function tagName(): string
+    {
+        return 'mj-accordion-element';
+    }
 }

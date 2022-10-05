@@ -6,6 +6,11 @@ use Illuminate\Support\Str;
 
 class AttributesComponent extends ComponentAbstract
 {
+    protected function tagName(): string
+    {
+        return 'mj-attributes';
+    }
+
     public function all(array $attributes): self
     {
         return $this->apply('mj-all', $attributes);

@@ -2,14 +2,14 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Toyi\MjmlBuilder\Concerns\HasTextComponent;
+use Toyi\MjmlBuilder\Children\HasColumnComponent;
 
 class SectionComponent extends ComponentAbstract
 {
-    use HasTextComponent;
+    use HasColumnComponent;
 
-    public function column(array $attributes = [], string $component_id = null): ColumnComponent
+    protected function tagName(): string
     {
-        return new ColumnComponent($attributes, null, $this, $component_id);
+        return 'mj-section';
     }
 }

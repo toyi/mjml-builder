@@ -2,10 +2,10 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-class SpacerComponent extends ComponentAbstract
+class NavbarLinkComponent extends ComponentAbstract
 {
     protected function tagName(): string
     {
-        return 'mj-spacer';
+        return 'mj-navbar-link';
     }
 }

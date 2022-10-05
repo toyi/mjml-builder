@@ -42,10 +42,7 @@ abstract class ComponentAbstract
         $this->setAttributes($this->attributes);
     }
 
-    protected function tagName(): string
-    {
-        return Str::of(static::class)->classBasename()->replaceLast('Component', '')->kebab()->prepend('mj-')->toString();
-    }
+    abstract protected function tagName(): string;
 
     public function getChildren(): array
     {

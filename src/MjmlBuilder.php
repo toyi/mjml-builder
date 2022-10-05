@@ -44,17 +44,17 @@ class MjmlBuilder implements Jsonable, Arrayable
         $this->configureBody($this->body());
     }
 
-    final public function mjml(): MjmlComponent
+    public function mjml(): MjmlComponent
     {
         return $this->mjml;
     }
 
-    final public function head(): HeadComponent
+    public function head(): HeadComponent
     {
         return $this->head;
     }
 
-    final public function body(): BodyComponent
+    public function body(): BodyComponent
     {
         return $this->body;
     }
