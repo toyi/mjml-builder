@@ -7,7 +7,7 @@ use Exception;
 use Toyi\MjmlBuilder\Concerns\HasAttributes;
 use Toyi\MjmlBuilder\Concerns\IsChild;
 use Toyi\MjmlBuilder\Concerns\IsParent;
-use Toyi\MjmlBuilder\Statements\Directive;
+use Toyi\MjmlBuilder\Statements\Statement;
 use Toyi\MjmlBuilder\Statements\ForeachStatement;
 use Toyi\MjmlBuilder\Statements\If\IfStatement;
 
@@ -15,8 +15,13 @@ abstract class ComponentAbstract
 {
     use IsParent, IsChild, HasAttributes;
 
-    public string|array|null $content = null;
+    protected string|array|null $content = null;
 
+    /**
+     * Is this an ending tag ? (https://documentation.mjml.io/#ending-tags)
+     *
+     * @var bool
+     */
     protected bool $isEndingTag = false;
 
     /**
@@ -29,7 +34,6 @@ abstract class ComponentAbstract
         string            $id = null
     )
     {
-
         $this->setContent($content);
         $this->setParent($parent);
         $this->setId($id);
@@ -54,6 +58,32 @@ abstract class ComponentAbstract
         return $this;
     }
 
+    /**
+     * Push (append) a string to the current content.
+     * If the content is a string, the addition will be concatenated.
+     * If it's an array, it'll be pushed as new value.
+     *
+     * @param string|null $contentToPush
+     * @return $this
+     */
+    public function pushContent(?string $contentToPush): self
+    {
+        if (is_array($this->content)) {
+            $this->content[] = $contentToPush;
+        } else {
+            $this->content .= $contentToPush;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the content of this component.
+     * If the component is an ending tag and the content an array,
+     * it'll be casted as a string where every new line is a <br />
+     *
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         if (!$this->isEndingTag()) {
@@ -63,10 +93,13 @@ abstract class ComponentAbstract
         $content = (array)$this->content;
         $content = array_filter($content, fn(?string $content) => $content !== null);
 
-        return implode('<br/>', $content);
+        return implode('<br />', $content);
     }
 
     /**
+     * Add a child mj-raw component.
+     * https://documentation.mjml.io/#mj-raw
+     *
      * @throws Exception
      */
     public function raw(array|string $content, array $attributes = []): RawComponent
@@ -74,17 +107,29 @@ abstract class ComponentAbstract
         return new RawComponent($attributes, $content, $this);
     }
 
+    /**
+     * Add an if statement to the content of this component
+     *
+     * @param IfStatement $if
+     * @return $this
+     */
     public function if(IfStatement $if): self
     {
-        return $this->directive($if);
+        return $this->statement($if);
     }
 
+    /**
+     * Add a foreach statement to the content of this component
+     *
+     * @param ForeachStatement $foreach
+     * @return $this
+     */
     public function foreach(ForeachStatement $foreach): self
     {
-        return $this->directive($foreach);
+        return $this->statement($foreach);
     }
 
-    public function directive(Directive $directive): self
+    protected function statement(Statement $directive): self
     {
         if ($this->isEndingTag()) {
             $directive->inline();
@@ -102,6 +147,11 @@ abstract class ComponentAbstract
         return $this;
     }
 
+    /**
+     * Convert a component into an array following the MJML JSON structure
+     *
+     * @return array
+     */
     public function toMjmlArray(): array
     {
         foreach ($this->childrenToPreprend as $child) {

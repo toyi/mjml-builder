@@ -5,7 +5,7 @@ namespace Toyi\MjmlBuilder\Statements;
 use Closure;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
-class ForeachStatement extends Directive
+class ForeachStatement extends Statement
 {
     protected ?Closure $empty = null;
 

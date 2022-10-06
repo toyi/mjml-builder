@@ -44,7 +44,7 @@ class TableComponent extends ComponentAbstract
 
         $this->alreadyHasARow = true;
 
-        $this->content .= '<tr '.(new ArrayToInlineAttributes($row['attributes'])).'>'.implode('', $row['cells']).'</tr>';
+        $this->pushContent('<tr '.(new ArrayToInlineAttributes($row['attributes'])).'>'.implode('', $row['cells']).'</tr>');
 
         return $this;
     }

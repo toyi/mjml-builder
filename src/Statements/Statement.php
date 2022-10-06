@@ -4,7 +4,7 @@ namespace Toyi\MjmlBuilder\Statements;
 
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
-abstract class Directive
+abstract class Statement
 {
     protected bool $inline = false;
 
@@ -48,7 +48,7 @@ abstract class Directive
 
         if ($parent) {
             if ($parent->isEndingTag()) {
-                $parent->content .= $str;
+                $parent->pushContent($str);
             } elseif ($raw) {
                 $parent->raw($str);
             }

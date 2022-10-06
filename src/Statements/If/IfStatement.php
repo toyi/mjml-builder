@@ -4,9 +4,9 @@ namespace Toyi\MjmlBuilder\Statements\If;
 
 use Closure;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
-use Toyi\MjmlBuilder\Statements\Directive;
+use Toyi\MjmlBuilder\Statements\Statement;
 
-class IfStatement extends Directive
+class IfStatement extends Statement
 {
     protected Condition $if;
 
