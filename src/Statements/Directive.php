@@ -41,6 +41,7 @@ abstract class Directive
 
     protected function push(array|string $str = null, ComponentAbstract $parent = null, bool $raw = false): string
     {
+
         if (is_array($str)) {
             $str = implode('<br />', $str);
         }

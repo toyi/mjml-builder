@@ -9,8 +9,10 @@ class NavbarComponent extends ComponentAbstract
         return 'mj-navbar';
     }
 
-    public function navbarLink(array $attributes = [], string $id = null): NavbarLinkComponent
+    public function navbarLink(string $content = null, string $href = null, array $attributes = [], string $id = null): NavbarLinkComponent
     {
-        return new NavbarLinkComponent($attributes, null, $this, $id);
+        return new NavbarLinkComponent(array_merge($attributes, [
+            'href' => $href,
+        ]), $content, $this, $id);
     }
 }

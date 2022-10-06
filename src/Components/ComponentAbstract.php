@@ -4,161 +4,71 @@ namespace Toyi\MjmlBuilder\Components;
 
 use Closure;
 use Exception;
+use Toyi\MjmlBuilder\Concerns\HasAttributes;
+use Toyi\MjmlBuilder\Concerns\IsChild;
+use Toyi\MjmlBuilder\Concerns\IsParent;
 use Toyi\MjmlBuilder\Statements\Directive;
 use Toyi\MjmlBuilder\Statements\ForeachStatement;
 use Toyi\MjmlBuilder\Statements\If\IfStatement;
 
 abstract class ComponentAbstract
 {
+    use IsParent, IsChild, HasAttributes;
+
     public string|array|null $content = null;
-
-    protected string $id;
-
-    protected array $attributes = [];
-
-    protected array $children = [];
-
-    protected array $childrenToPreprend = [];
-
-    protected array $childrenToAppend = [];
 
     protected bool $isEndingTag = false;
 
-    protected ?ComponentAbstract $parent = null;
-
+    /**
+     * @throws Exception
+     */
     public function __construct(
-        array $attributes = [],
+        array             $attributes = [],
         null|string|array $content = null,
-        ?self $parent = null,
-        string $id = null
-    ) {
-        $this->parent = $parent;
-        $this->content = $content;
-        $this->attributes = $attributes;
+        ?self             $parent = null,
+        string            $id = null
+    )
+    {
 
+        $this->setContent($content);
+        $this->setParent($parent);
         $this->setId($id);
-        $this->setParent($this->parent);
-        $this->setAttributes($this->attributes);
+        $this->setAttributes($attributes);
     }
 
     abstract protected function tagName(): string;
-
-    public function getChildren(): array
-    {
-        return $this->children;
-    }
-
-    public function pushChild(ComponentAbstract $child): self
-    {
-        $this->children[] = $child;
-
-        return $this;
-    }
-
-    public function prepend(ComponentAbstract $component, string $id = null): self
-    {
-        $this->childrenToPreprend[$id] = $this->addChild($component, $id);
-
-        return $this;
-    }
-
-    public function append(ComponentAbstract $component, string $id = null): self
-    {
-        $this->childrenToAppend[$id] = $this->addChild($component, $id);
-
-        return $this;
-    }
-
-    private function addChild(ComponentAbstract $component, string $id = null): ComponentAbstract
-    {
-        return $component->setId($id)->setParent($this, false);
-    }
-
-    private function remove(array &$pool, string $id): ComponentAbstract
-    {
-        $component = $pool[$id];
-        $component->setParent(null);
-        unset($pool[$id]);
-
-        return $component;
-    }
-
-    public function removePrependedChild(string $id): ComponentAbstract
-    {
-        return $this->remove($this->childrenToPreprend, $id);
-    }
-
-    public function removeAppendedChild(string $id): ComponentAbstract
-    {
-        return $this->remove($this->childrenToAppend, $id);
-    }
 
     public function isEndingTag(): bool
     {
         return $this->isEndingTag;
     }
 
-    public function getId(): string
+    public function setContent(null|string|array $content = null): self
     {
-        return $this->id;
-    }
+        if (!$this->isEndingTag() && is_array($content)) {
+            $content = implode('', $content);
+        }
 
-    public function setId(string $id = null): self
-    {
-        $this->id = $id ?: uniqid('', true);
+        $this->content = $content;
 
         return $this;
     }
 
-    public function getParent(): ?self
+    public function getContent(): ?string
     {
-        return $this->parent;
-    }
-
-    public function setParent(?ComponentAbstract $parent, bool $pushToChildren = true): self
-    {
-        if ($parent === null) {
-            return $this;
+        if (!$this->isEndingTag()) {
+            return (string)$this->content;
         }
 
-        $this->parent = $parent;
-
-        if ($pushToChildren) {
-            $parent->pushChild($this);
-        }
-
-        return $this;
-    }
-
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
-    public function setAttributes(array $attributes): self
-    {
-        foreach ($attributes as $key => $value) {
-            if (! is_int($key)) {
-                continue;
-            }
-
-            $attributes[$value] = $value;
-            unset($attributes[$key]);
-        }
-
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    protected function getContent(): ?string
-    {
-        $content = (array) $this->content;
-        $content = array_filter($content, fn (?string $content) => $content !== null);
+        $content = (array)$this->content;
+        $content = array_filter($content, fn(?string $content) => $content !== null);
 
         return implode('<br/>', $content);
     }
 
+    /**
+     * @throws Exception
+     */
     public function raw(array|string $content, array $attributes = []): RawComponent
     {
         return new RawComponent($attributes, $content, $this);
@@ -185,23 +95,6 @@ abstract class ComponentAbstract
         return $this;
     }
 
-    /**
-     * @throws Exception
-     */
-    public function push(self|string $child): self
-    {
-        if (is_string($child)) {
-            if (! class_exists($child)) {
-                throw new Exception("Class $child doesn't exist.");
-            }
-            $child = new $child();
-        }
-
-        $child->setParent($this);
-
-        return $child;
-    }
-
     public function chain(Closure $chain): self
     {
         $chain($this);
@@ -216,13 +109,13 @@ abstract class ComponentAbstract
         }
 
         foreach ($this->childrenToAppend as $child) {
-            $this->children[] = $child;
+            $child->setParent($this);
         }
 
         return array_filter([
             'tagName' => $this->tagName(),
             'attributes' => $this->attributes,
-            'children' => array_map(fn ($child) => array_filter($child->toMjmlArray()), $this->getChildren()),
+            'children' => array_map(fn(ComponentAbstract $child) => array_filter($child->toMjmlArray()), $this->getChildren()),
             'content' => $this->getContent(),
         ]);
     }

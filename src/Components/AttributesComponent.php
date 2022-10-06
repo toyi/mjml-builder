@@ -2,7 +2,6 @@
 
 namespace Toyi\MjmlBuilder\Components;
 
-use Illuminate\Support\Str;
 use Jawira\CaseConverter\Convert;
 
 class AttributesComponent extends ComponentAbstract
@@ -27,12 +26,10 @@ class AttributesComponent extends ComponentAbstract
     public function apply(string $componentName, array $attributes = []): self
     {
         $componentName = (new Convert(str_replace('mj-', '', $componentName)))->toPascal();
-        $basename = class_basename($this);
+        $class_e = explode('\\', $this::class);
+        $basename = array_pop($class_e);
         $component = str_replace($basename, $componentName, static::class).'Component';
 
-        /**
-         * @var ComponentAbstract $component
-         */
         new $component($attributes, null, $this);
 
         return $this;
