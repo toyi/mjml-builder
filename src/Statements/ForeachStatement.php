@@ -8,6 +8,11 @@ use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
 class ForeachStatement extends Statement
 {
+    /**
+     * Executed when the iterable count === 0 instead of doing nothing.
+     *
+     * @var Closure|null
+     */
     protected ?Closure $empty = null;
 
     public function __construct(

@@ -40,6 +40,27 @@ class ForeachStatementTest extends TestCase
         $this->assertEquals($childCContent, $children[2]->getContent());
     }
 
+    public function testForeachStatementCanHaveAnEmptyCallback(): void
+    {
+        $expected = [
+            '<!-- htmlmin:ignore -->',
+            '<?php if(count([1,2,3]) === 0){ ?>',
+            '<!-- htmlmin:ignore -->&nbsp;Empty<!-- htmlmin:ignore -->',
+            '<?php }else{ ?>',
+            '<!-- htmlmin:ignore -->&nbsp;<!-- htmlmin:ignore -->',
+            '<?php foreach([1,2,3] as $key => $value){ ?>',
+            '<!-- htmlmin:ignore -->&nbsp;<?php echo $value ?> : <?php echo $key ?><br/><!-- htmlmin:ignore -->',
+            '<?php } ?>',
+            '<!-- htmlmin:ignore -->&nbsp;<!-- htmlmin:ignore -->',
+            '<?php } ?>',
+            '<!-- htmlmin:ignore -->&nbsp;',
+        ];
+
+        $foreach = ForeachStatement::make('[1,2,3]', '<?php echo $value ?> : <?php echo $key ?><br/>')->empty(fn() => "Empty")->generate();
+
+        $this->assertEquals(implode("\n", $expected), $foreach);
+    }
+
     public function testForeachStatementGenerateAValidStatement(): void
     {
         $expected = [
@@ -57,7 +78,7 @@ class ForeachStatementTest extends TestCase
     public function testForeachStatementGenerateAValidInlineStatement(): void
     {
         $expected = [
-            "\n".'<?php foreach([1,2,3] as $key => $value){ ?>',
+            "\n" . '<?php foreach([1,2,3] as $key => $value){ ?>',
             '<?php echo $value ?> : <?php echo $key ?><br/>',
             "<?php } ?>\n",
         ];
