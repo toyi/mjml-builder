@@ -33,22 +33,22 @@ class IfStatement extends Statement
         return $this;
     }
 
-    public function generate(ComponentAbstract $parent = null): string
+    protected function handle(ComponentAbstract $component = null): string
     {
-        $str = $this->tag("<?php if({$this->if->getCondition()}){ ?>", $parent);
-        $str .= $this->push($this->if->execute($parent), $parent);
+        $str = $this->tag("<?php if({$this->if->getCondition()}){ ?>", $component);
+        $str .= $this->push($this->if->execute($component), $component);
 
         foreach ($this->elseifs as $elseif) {
-            $str .= $this->tag("<?php }else if({$elseif->getCondition()}){ ?>", $parent);
-            $str .= $this->push($elseif->execute($parent), $parent);
+            $str .= $this->tag("<?php }else if({$elseif->getCondition()}){ ?>", $component);
+            $str .= $this->push($elseif->execute($component), $component);
         }
 
         if ($this->else) {
-            $str .= $this->tag('<?php }else{ ?>', $parent);
-            $str .= $this->push($this->else->execute($parent), $parent);
+            $str .= $this->tag('<?php }else{ ?>', $component);
+            $str .= $this->push($this->else->execute($component), $component);
         }
 
-        $str .= $this->tag('<?php } ?>', $parent);
+        $str .= $this->tag('<?php } ?>', $component);
 
         return $str;
     }

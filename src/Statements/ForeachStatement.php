@@ -3,20 +3,21 @@
 namespace Toyi\MjmlBuilder\Statements;
 
 use Closure;
+use Toyi\MjmlBuilder\Components\ColumnComponent;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
 class ForeachStatement extends Statement
 {
     protected ?Closure $empty = null;
 
-    protected ?ComponentAbstract $parent = null;
-
     public function __construct(
-        protected string $iterable,
-        protected Closure $loop,
-        protected string $value = 'value',
-        protected string $key = 'key'
-    ) {
+        protected string         $iterable,
+        protected string|Closure $loop,
+        protected string         $value = 'value',
+        protected string         $key = 'key'
+    )
+    {
+
     }
 
     public function empty(Closure $closure): self
@@ -26,24 +27,36 @@ class ForeachStatement extends Statement
         return $this;
     }
 
-    public function generate(ComponentAbstract $parent = null): string
+    protected function handle(ComponentAbstract $component = null): string
     {
         $str = '';
 
         if ($this->empty) {
-            $str .= $this->tag("<?php if(count($this->iterable) === 0){ ?>", $parent);
-            $str .= $this->push(($this->empty)($parent), $parent);
-            $str .= $this->tag('<?php }else{ ?>', $parent);
+            $str .= $this->tag("<?php if(count($this->iterable) === 0){ ?>", $component);
+            $str .= $this->push(($this->empty)($component), $component);
+            $str .= $this->tag('<?php }else{ ?>', $component);
         }
 
-        $str .= $this->tag("<?php foreach($this->iterable as $$this->key => $$this->value){ ?>", $parent);
+        $str .= $this->tag("<?php foreach($this->iterable as $$this->key => $$this->value){ ?>", $component);
 
-        $str .= $this->push(($this->loop)($parent), $parent);
+        $loop = $this->loop;
+        if (is_string($loop)) {
+            $this->loop = function (ComponentAbstract $column = null) use ($loop) {
+                if (!$column instanceof ColumnComponent) {
+                    return $loop;
+                }
 
-        $str .= $this->tag('<?php } ?>', $parent);
+                $column->text($loop);
+                return null;
+            };
+        }
+
+        $str .= $this->push(($this->loop)($component), $component);
+
+        $str .= $this->tag('<?php } ?>', $component);
 
         if ($this->empty) {
-            $str .= $this->tag('<?php } ?>', $parent);
+            $str .= $this->tag('<?php } ?>', $component);
         }
 
         return $str;

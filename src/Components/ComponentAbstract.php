@@ -15,6 +15,11 @@ abstract class ComponentAbstract
 {
     use IsParent, IsChild, HasAttributes;
 
+    /**
+     * The content represents the text or html inside this component.
+     *
+     * @var string|array|null
+     */
     protected string|array|null $content = null;
 
     /**
@@ -24,9 +29,7 @@ abstract class ComponentAbstract
      */
     protected bool $isEndingTag = false;
 
-    /**
-     * @throws Exception
-     */
+
     public function __construct(
         array             $attributes = [],
         null|string|array $content = null,
@@ -34,8 +37,9 @@ abstract class ComponentAbstract
         string            $id = null
     )
     {
-        $this->setContent($content);
+
         $this->setParent($parent);
+        $this->setContent($content);
         $this->setId($id);
         $this->setAttributes($attributes);
     }
@@ -131,10 +135,6 @@ abstract class ComponentAbstract
 
     protected function statement(Statement $directive): self
     {
-        if ($this->isEndingTag()) {
-            $directive->inline();
-        }
-
         $directive->generate($this);
 
         return $this;

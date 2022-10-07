@@ -2,8 +2,8 @@
 
 namespace Toyi\MjmlBuilder\Concerns;
 
-use Exception;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
+use Toyi\MjmlBuilder\Exceptions\ParentException;
 
 trait IsParent
 {
@@ -30,6 +30,9 @@ trait IsParent
         return $this->childrenToAppend;
     }
 
+    /**
+     * @throws ParentException
+     */
     public function removeChild(ComponentAbstract $child): ComponentAbstract
     {
         $this->children = array_filter(
@@ -43,16 +46,16 @@ trait IsParent
     }
 
     /**
-     * @throws Exception
+     * @throws ParentException
      */
     public function push(string|ComponentAbstract $child): ComponentAbstract
     {
         if (is_string($child) && !class_exists($child)) {
-            throw new Exception("Class $child doesn't exist.");
+            throw new ParentException("Class $child doesn't exist.");
         }
 
         if (!$this->canHaveChildren) {
-            throw new Exception($this::class . ' cannot have children.');
+            throw new ParentException($this::class . ' cannot have children.');
         }
 
         if (is_string($child)) {
@@ -82,9 +85,6 @@ trait IsParent
         return $this;
     }
 
-    /**
-     * @throws Exception
-     */
     private function addChild(ComponentAbstract $component, string $id = null): ComponentAbstract
     {
         return $component->setId($id)->setParent($this, false);
