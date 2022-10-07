@@ -56,7 +56,7 @@ class ForeachStatementTest extends TestCase
             '<!-- htmlmin:ignore -->&nbsp;',
         ];
 
-        $foreach = ForeachStatement::make('[1,2,3]', '<?php echo $value ?> : <?php echo $key ?><br/>')->empty(fn() => "Empty")->generate();
+        $foreach = ForeachStatement::make('[1,2,3]', '<?php echo $value ?> : <?php echo $key ?><br/>')->empty(fn () => 'Empty')->generate();
 
         $this->assertEquals(implode("\n", $expected), $foreach);
     }
@@ -78,7 +78,7 @@ class ForeachStatementTest extends TestCase
     public function testForeachStatementGenerateAValidInlineStatement(): void
     {
         $expected = [
-            "\n" . '<?php foreach([1,2,3] as $key => $value){ ?>',
+            "\n".'<?php foreach([1,2,3] as $key => $value){ ?>',
             '<?php echo $value ?> : <?php echo $key ?><br/>',
             "<?php } ?>\n",
         ];
