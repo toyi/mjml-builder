@@ -3,7 +3,6 @@
 namespace Toyi\MjmlBuilder\Statements\If;
 
 use Closure;
-use Toyi\MjmlBuilder\Components\ColumnComponent;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
 class Condition
@@ -25,12 +24,12 @@ class Condition
         if (! is_callable($this->success)) {
             $src = $this->success;
 
-            $this->success = function (ComponentAbstract $column = null) use ($src): null|array|string {
-                if (! $column instanceof ColumnComponent) {
+            $this->success = function (ComponentAbstract $component = null) use ($src): null|array|string {
+                if ($component === null || ! method_exists($component, 'text')) {
                     return $src;
                 }
 
-                $column->text($src);
+                $component->text($src);
 
                 return null;
             };

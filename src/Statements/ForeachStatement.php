@@ -3,7 +3,6 @@
 namespace Toyi\MjmlBuilder\Statements;
 
 use Closure;
-use Toyi\MjmlBuilder\Components\ColumnComponent;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 
 class ForeachStatement extends Statement
@@ -44,12 +43,12 @@ class ForeachStatement extends Statement
 
         $loop = $this->loop;
         if (is_string($loop)) {
-            $this->loop = function (ComponentAbstract $column = null) use ($loop) {
-                if (! $column instanceof ColumnComponent) {
+            $this->loop = function (ComponentAbstract $component = null) use ($loop) {
+                if ($component === null || ! method_exists($component, 'text')) {
                     return $loop;
                 }
 
-                $column->text($loop);
+                $component->text($loop);
 
                 return null;
             };
