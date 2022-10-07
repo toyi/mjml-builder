@@ -21,7 +21,7 @@ class ComponentTreeTest extends TestCase
         $this->assertNull($child->getParent());
 
         $this->assertEquals([
-            'tagName' => 'mj-column'
+            'tagName' => 'mj-column',
         ], $parent->toMjmlArray());
     }
 
@@ -42,9 +42,9 @@ class ComponentTreeTest extends TestCase
             'tagName' => 'mj-column',
             'children' => [
                 [
-                    'tagName' => 'mj-text'
-                ]
-            ]
+                    'tagName' => 'mj-text',
+                ],
+            ],
         ], $parent->toMjmlArray());
     }
 
@@ -74,17 +74,17 @@ class ComponentTreeTest extends TestCase
             'children' => [
                 [
                     'tagName' => 'mj-text',
-                    'content' => $prepended->getContent()
+                    'content' => $prepended->getContent(),
                 ],
                 [
                     'tagName' => 'mj-text',
-                    'content' => $middleChild->getContent()
+                    'content' => $middleChild->getContent(),
                 ],
                 [
                     'tagName' => 'mj-text',
-                    'content' => $appended->getContent()
+                    'content' => $appended->getContent(),
                 ],
-            ]
+            ],
         ], $parent->toMjmlArray());
     }
 
@@ -95,8 +95,8 @@ class ComponentTreeTest extends TestCase
                 TextComponent::class,
             ],
             [
-                new TextComponent()
-            ]
+                new TextComponent(),
+            ],
         ];
     }
 
@@ -116,9 +116,9 @@ class ComponentTreeTest extends TestCase
             'tagName' => 'mj-column',
             'children' => [
                 [
-                    'tagName' => 'mj-text'
-                ]
-            ]
+                    'tagName' => 'mj-text',
+                ],
+            ],
         ], $parent->toMjmlArray());
     }
 }

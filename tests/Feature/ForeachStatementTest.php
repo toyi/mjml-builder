@@ -19,18 +19,18 @@ class ForeachStatementTest extends TestCase
         $children = $column->getChildren();
 
         $childAContent = [
-            "<!-- htmlmin:ignore -->",
+            '<!-- htmlmin:ignore -->',
             '<?php foreach([1,2,3] as $key => $value){ ?>',
-            "<!-- htmlmin:ignore -->&nbsp;",
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
         $childAContent = implode("\n", $childAContent);
 
         $childBContent = '<?php echo $value ?> : <?php echo $key ?><br/>';
 
         $childCContent = [
-            "<!-- htmlmin:ignore -->",
-            "<?php } ?>",
-            "<!-- htmlmin:ignore -->&nbsp;"
+            '<!-- htmlmin:ignore -->',
+            '<?php } ?>',
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
         $childCContent = implode("\n", $childCContent);
 
@@ -47,7 +47,7 @@ class ForeachStatementTest extends TestCase
             '<?php foreach([1,2,3] as $key => $value){ ?>',
             '<!-- htmlmin:ignore -->&nbsp;<?php echo $value ?> : <?php echo $key ?><br/><!-- htmlmin:ignore -->',
             '<?php } ?>',
-            '<!-- htmlmin:ignore -->&nbsp;'
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
 
         $foreach = ForeachStatement::make('[1,2,3]', '<?php echo $value ?> : <?php echo $key ?><br/>')->generate();
@@ -57,9 +57,9 @@ class ForeachStatementTest extends TestCase
     public function testForeachStatementGenerateAValidInlineStatement(): void
     {
         $expected = [
-            "\n" . '<?php foreach([1,2,3] as $key => $value){ ?>',
+            "\n".'<?php foreach([1,2,3] as $key => $value){ ?>',
             '<?php echo $value ?> : <?php echo $key ?><br/>',
-            "<?php } ?>\n"
+            "<?php } ?>\n",
         ];
 
         $expected = implode("\n", $expected);

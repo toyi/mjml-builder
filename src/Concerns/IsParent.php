@@ -37,7 +37,7 @@ trait IsParent
     {
         $this->children = array_filter(
             $this->children,
-            fn(ComponentAbstract $c) => $c->getId() !== $child->getId()
+            fn (ComponentAbstract $c) => $c->getId() !== $child->getId()
         );
 
         $child->setParent(null);
@@ -50,12 +50,12 @@ trait IsParent
      */
     public function push(string|ComponentAbstract $child): ComponentAbstract
     {
-        if (is_string($child) && !class_exists($child)) {
+        if (is_string($child) && ! class_exists($child)) {
             throw new ParentException("Class $child doesn't exist.");
         }
 
-        if (!$this->canHaveChildren) {
-            throw new ParentException($this::class . ' cannot have children.');
+        if (! $this->canHaveChildren) {
+            throw new ParentException($this::class.' cannot have children.');
         }
 
         if (is_string($child)) {

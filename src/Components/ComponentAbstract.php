@@ -7,9 +7,9 @@ use Exception;
 use Toyi\MjmlBuilder\Concerns\HasAttributes;
 use Toyi\MjmlBuilder\Concerns\IsChild;
 use Toyi\MjmlBuilder\Concerns\IsParent;
-use Toyi\MjmlBuilder\Statements\Statement;
 use Toyi\MjmlBuilder\Statements\ForeachStatement;
 use Toyi\MjmlBuilder\Statements\If\IfStatement;
+use Toyi\MjmlBuilder\Statements\Statement;
 
 abstract class ComponentAbstract
 {
@@ -29,15 +29,12 @@ abstract class ComponentAbstract
      */
     protected bool $isEndingTag = false;
 
-
     public function __construct(
-        array             $attributes = [],
+        array $attributes = [],
         null|string|array $content = null,
-        ?self             $parent = null,
-        string            $id = null
-    )
-    {
-
+        ?self $parent = null,
+        string $id = null
+    ) {
         $this->setParent($parent);
         $this->setContent($content);
         $this->setId($id);
@@ -53,7 +50,7 @@ abstract class ComponentAbstract
 
     public function setContent(null|string|array $content = null): self
     {
-        if (!$this->isEndingTag() && is_array($content)) {
+        if (! $this->isEndingTag() && is_array($content)) {
             $content = implode('', $content);
         }
 
@@ -67,7 +64,7 @@ abstract class ComponentAbstract
      * If the content is a string, the addition will be concatenated.
      * If it's an array, it'll be pushed as new value.
      *
-     * @param string|null $contentToPush
+     * @param  string|null  $contentToPush
      * @return $this
      */
     public function pushContent(?string $contentToPush): self
@@ -90,12 +87,12 @@ abstract class ComponentAbstract
      */
     public function getContent(): ?string
     {
-        if (!$this->isEndingTag()) {
-            return (string)$this->content;
+        if (! $this->isEndingTag()) {
+            return (string) $this->content;
         }
 
-        $content = (array)$this->content;
-        $content = array_filter($content, fn(?string $content) => $content !== null);
+        $content = (array) $this->content;
+        $content = array_filter($content, fn (?string $content) => $content !== null);
 
         return implode('<br />', $content);
     }
@@ -114,7 +111,7 @@ abstract class ComponentAbstract
     /**
      * Add an if statement to the content of this component
      *
-     * @param IfStatement $if
+     * @param  IfStatement  $if
      * @return $this
      */
     public function if(IfStatement $if): self
@@ -125,7 +122,7 @@ abstract class ComponentAbstract
     /**
      * Add a foreach statement to the content of this component
      *
-     * @param ForeachStatement $foreach
+     * @param  ForeachStatement  $foreach
      * @return $this
      */
     public function foreach(ForeachStatement $foreach): self
@@ -165,7 +162,7 @@ abstract class ComponentAbstract
         return array_filter([
             'tagName' => $this->tagName(),
             'attributes' => $this->attributes,
-            'children' => array_map(fn(ComponentAbstract $child) => array_filter($child->toMjmlArray()), $this->getChildren()),
+            'children' => array_map(fn (ComponentAbstract $child) => array_filter($child->toMjmlArray()), $this->getChildren()),
             'content' => $this->getContent(),
         ]);
     }

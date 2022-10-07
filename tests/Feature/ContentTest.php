@@ -34,7 +34,7 @@ class ContentTest extends TestCase
             'Hello',
             'World',
             'Foo',
-            'Bar'
+            'Bar',
         ]);
 
         $this->assertEquals('Hello<br />World<br />Foo<br />Bar', $text->getContent());

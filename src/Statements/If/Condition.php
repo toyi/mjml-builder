@@ -10,32 +10,30 @@ class Condition
 {
     public function __construct(
         protected Closure|string|array $success,
-        public ?string                 $condition = null
-    )
-    {
-
+        public ?string $condition = null
+    ) {
     }
 
     /**
      * Execute the condition.
      *
-     * @param ComponentAbstract|null $parent
+     * @param  ComponentAbstract|null  $parent
      * @return mixed
      */
     public function execute(ComponentAbstract $parent = null): mixed
     {
-        if (!is_callable($this->success)) {
+        if (! is_callable($this->success)) {
             $src = $this->success;
 
             $this->success = function (ComponentAbstract $column = null) use ($src): null|array|string {
-                if (!$column instanceof ColumnComponent) {
+                if (! $column instanceof ColumnComponent) {
                     return $src;
                 }
 
                 $column->text($src);
+
                 return null;
             };
-
         }
 
         return ($this->success)($parent);

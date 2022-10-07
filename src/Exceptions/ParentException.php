@@ -1,8 +1,9 @@
-<?php namespace Toyi\MjmlBuilder\Exceptions;
+<?php
+
+namespace Toyi\MjmlBuilder\Exceptions;
 
 use Exception;
 
 class ParentException extends Exception
 {
-
 }

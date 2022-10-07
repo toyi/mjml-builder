@@ -25,7 +25,7 @@ abstract class Statement
      * If the component argument is not null and is an endingTag, the inline property
      * is forced to true.
      *
-     * @param ComponentAbstract|null $component
+     * @param  ComponentAbstract|null  $component
      * @return string
      */
     public function generate(ComponentAbstract $component = null): string
@@ -56,7 +56,7 @@ abstract class Statement
      * Needed to prevent the MJML minifier to throw parsing errors.
      * https://documentation.mjml.io/#mj-raw
      *
-     * @param string $content
+     * @param  string  $content
      * @return string
      */
     protected function ignoreContent(string $content): string
@@ -71,7 +71,7 @@ abstract class Statement
     {
         $tag = "\n$tag\n";
 
-        if (!$this->inline) {
+        if (! $this->inline) {
             $tag = $this->ignoreContent($tag);
             $tag .= '&nbsp;';
         }
@@ -88,10 +88,11 @@ abstract class Statement
      * If the component is an ending tag, the given content will be appended at the end.
      * If it's not an ending tag, it'll be pushed as a mj-raw child.
      *
-     * @param array|string|null $str
-     * @param ComponentAbstract|null $component
-     * @param bool $raw
+     * @param  array|string|null  $str
+     * @param  ComponentAbstract|null  $component
+     * @param  bool  $raw
      * @return string
+     *
      * @throws Exception
      */
     protected function push(array|string $str = null, ComponentAbstract $component = null, bool $raw = false): string

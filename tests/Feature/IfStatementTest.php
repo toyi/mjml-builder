@@ -17,20 +17,22 @@ class IfStatementTest extends TestCase
                 function (): ColumnComponent {
                     $column = new ColumnComponent();
                     IfStatement::make('true', 'This is true!')->else('This is false!')->generate($column);
+
                     return $column;
-                }
+                },
             ],
             [
                 function (): ColumnComponent {
                     return (new ColumnComponent())->if(IfStatement::make('true', 'This is true!')->else('This is false!'));
-                }
-            ]
+                },
+            ],
         ];
     }
 
     /**
      * @dataProvider testIfStatementAppendsMjRawToComponentProvider
-     * @param Closure $makeColumn
+     *
+     * @param  Closure  $makeColumn
      * @return void
      */
     public function testIfStatementAppendsMjRawToComponent(Closure $makeColumn): void
@@ -38,27 +40,27 @@ class IfStatementTest extends TestCase
         $children = $makeColumn()->getChildren();
 
         $childAContent = [
-            "<!-- htmlmin:ignore -->",
-            "<?php if(true){ ?>",
-            "<!-- htmlmin:ignore -->&nbsp;",
+            '<!-- htmlmin:ignore -->',
+            '<?php if(true){ ?>',
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
         $childAContent = implode("\n", $childAContent);
 
-        $childBContent = "This is true!";
+        $childBContent = 'This is true!';
 
         $childCContent = [
-            "<!-- htmlmin:ignore -->",
-            "<?php }else{ ?>",
-            "<!-- htmlmin:ignore -->&nbsp;",
+            '<!-- htmlmin:ignore -->',
+            '<?php }else{ ?>',
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
         $childCContent = implode("\n", $childCContent);
 
-        $childDContent = "This is false!";
+        $childDContent = 'This is false!';
 
         $childEContent = [
-            "<!-- htmlmin:ignore -->",
-            "<?php } ?>",
-            "<!-- htmlmin:ignore -->&nbsp;"
+            '<!-- htmlmin:ignore -->',
+            '<?php } ?>',
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
         $childEContent = implode("\n", $childEContent);
 
@@ -79,7 +81,7 @@ class IfStatementTest extends TestCase
             '<?php }else{ ?>',
             '<!-- htmlmin:ignore -->&nbsp;This is false!<!-- htmlmin:ignore -->',
             '<?php } ?>',
-            '<!-- htmlmin:ignore -->&nbsp;'
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
 
         $if = IfStatement::make('true', 'This is true!')->else('This is false!');
@@ -93,7 +95,7 @@ class IfStatementTest extends TestCase
             'This is true!',
             '<?php }else{ ?>',
             'This is false!',
-            "<?php } ?>\n"
+            "<?php } ?>\n",
         ];
 
         $expected = implode("\n", $expected);
@@ -118,7 +120,7 @@ class IfStatementTest extends TestCase
             '<?php }else{ ?>',
             '<!-- htmlmin:ignore -->&nbsp;This is false!<!-- htmlmin:ignore -->',
             '<?php } ?>',
-            '<!-- htmlmin:ignore -->&nbsp;'
+            '<!-- htmlmin:ignore -->&nbsp;',
         ];
 
         $if = IfStatement::make('1 === 3', 'This is true!')

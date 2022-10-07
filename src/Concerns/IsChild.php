@@ -2,7 +2,6 @@
 
 namespace Toyi\MjmlBuilder\Concerns;
 
-use Exception;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 use Toyi\MjmlBuilder\Exceptions\ParentException;
 
@@ -23,15 +22,17 @@ trait IsChild
     /**
      * Set the parent of this component.
      *
-     * @param ComponentAbstract|null $parent
-     * @param bool $pushToChildren
+     * @param  ComponentAbstract|null  $parent
+     * @param  bool  $pushToChildren
      * @return IsChild|ComponentAbstract
+     *
      * @throws ParentException
      */
     public function setParent(?ComponentAbstract $parent, bool $pushToChildren = true): self
     {
         if ($parent === null) {
             $this->parent = null;
+
             return $this;
         }
 

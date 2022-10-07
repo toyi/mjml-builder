@@ -11,13 +11,11 @@ class ForeachStatement extends Statement
     protected ?Closure $empty = null;
 
     public function __construct(
-        protected string         $iterable,
+        protected string $iterable,
         protected string|Closure $loop,
-        protected string         $value = 'value',
-        protected string         $key = 'key'
-    )
-    {
-
+        protected string $value = 'value',
+        protected string $key = 'key'
+    ) {
     }
 
     public function empty(Closure $closure): self
@@ -42,11 +40,12 @@ class ForeachStatement extends Statement
         $loop = $this->loop;
         if (is_string($loop)) {
             $this->loop = function (ComponentAbstract $column = null) use ($loop) {
-                if (!$column instanceof ColumnComponent) {
+                if (! $column instanceof ColumnComponent) {
                     return $loop;
                 }
 
                 $column->text($loop);
+
                 return null;
             };
         }
