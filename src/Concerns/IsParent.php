@@ -110,8 +110,8 @@ trait IsParent
     /**
      * Prepending a child will ensure it's always added before any other pushed child.
      *
-     * @param ComponentAbstract $component
-     * @param string|null $id
+     * @param  ComponentAbstract  $component
+     * @param  string|null  $id
      * @return ComponentAbstract|IsParent
      */
     public function prependChild(ComponentAbstract $component, string $id = null): self
@@ -125,8 +125,8 @@ trait IsParent
      * Appending a child will ensure it's always added at the end of the children list.
      * For instance, the signature at the end of a template..
      *
-     * @param ComponentAbstract $component
-     * @param string|null $id
+     * @param  ComponentAbstract  $component
+     * @param  string|null  $id
      * @return ComponentAbstract|IsParent
      */
     public function appendChild(ComponentAbstract $component, string $id = null): self
@@ -139,7 +139,7 @@ trait IsParent
     /**
      * Remove a child from the prepend list.
      *
-     * @param string $id
+     * @param  string  $id
      * @return ComponentAbstract
      */
     public function unPrependChild(string $id): ComponentAbstract
@@ -150,7 +150,7 @@ trait IsParent
     /**
      * Remove a child from the append list.
      *
-     * @param string $id
+     * @param  string  $id
      * @return ComponentAbstract
      */
     public function unAppendChild(string $id): ComponentAbstract

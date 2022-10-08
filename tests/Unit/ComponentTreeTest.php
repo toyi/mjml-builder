@@ -160,11 +160,11 @@ class ComponentTreeTest extends TestCase
                     'children' => [
                         [
                             'tagName' => 'mj-text',
-                            'content' => 'First'
+                            'content' => 'First',
                         ],
                         [
                             'tagName' => 'mj-text',
-                            'content' => 'Second'
+                            'content' => 'Second',
                         ],
                     ],
                 ],
@@ -173,11 +173,11 @@ class ComponentTreeTest extends TestCase
                     'children' => [
                         [
                             'tagName' => 'mj-text',
-                            'content' => 'Third'
-                        ]
+                            'content' => 'Third',
+                        ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ], $section->toMjmlArray());
     }
 }

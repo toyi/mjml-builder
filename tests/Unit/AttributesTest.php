@@ -15,8 +15,8 @@ class AttributesTest extends TestCase
         $this->assertEquals([
             'tagName' => 'mj-column',
             'attributes' => [
-                'width' => '100%'
-            ]
+                'width' => '100%',
+            ],
         ], $column->toMjmlArray());
     }
 
@@ -28,8 +28,8 @@ class AttributesTest extends TestCase
         $this->assertEquals([
             'tagName' => 'mj-column',
             'attributes' => [
-                'full-width' => 'full-width'
-            ]
+                'full-width' => 'full-width',
+            ],
         ], $column->toMjmlArray());
     }
 }

@@ -21,7 +21,7 @@ trait HasAttributes
     public function setAttributes(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
-            if (!is_int($key)) {
+            if (! is_int($key)) {
                 continue;
             }
 
