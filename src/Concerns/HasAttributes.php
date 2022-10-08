@@ -6,6 +6,11 @@ trait HasAttributes
 {
     protected array $attributes = [];
 
+    /**
+     * The id represents the unique identifier of the component instance.
+     *
+     * @var string
+     */
     protected string $id;
 
     public function getAttributes(): array
@@ -16,7 +21,7 @@ trait HasAttributes
     public function setAttributes(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
-            if (! is_int($key)) {
+            if (!is_int($key)) {
                 continue;
             }
 

@@ -83,7 +83,11 @@ class MjmlBuilder
 
             $attributes = (new ArrayToInlineAttributes($tree['attributes'] ??= []));
 
-            return "<$tagName $attributes>$content</$tagName>";
+            if (trim($attributes) !== '') {
+                $attributes = " $attributes";
+            }
+
+            return "<$tagName$attributes>$content</$tagName>";
         };
 
         return $tagToString($tree[0]);

@@ -2,6 +2,7 @@
 
 namespace Toyi\MjmlBuilder\Concerns;
 
+use Exception;
 use Toyi\MjmlBuilder\Components\ComponentAbstract;
 use Toyi\MjmlBuilder\Exceptions\ParentException;
 
@@ -31,6 +32,8 @@ trait IsParent
     }
 
     /**
+     * Remove a child from the children list.
+     *
      * @throws ParentException
      */
     public function removeChild(ComponentAbstract $child): ComponentAbstract
@@ -46,6 +49,39 @@ trait IsParent
     }
 
     /**
+     * Recursively search for a child with the given id
+     *
+     * @param  string  $id
+     * @return ComponentAbstract|null
+     */
+    public function findChildById(string $id): ?ComponentAbstract
+    {
+        /**
+         * @throws Exception
+         */
+        $fct = function (array $children) use ($id, &$fct) {
+            foreach ($children as $child) {
+                if ($child->id === $id) {
+                    return $child;
+                }
+
+                $res = $fct($child->getChildren());
+
+                if ($res !== null) {
+                    return $res;
+                }
+            }
+
+            return null;
+        };
+
+        return $fct($this->getChildren());
+    }
+
+    /**
+     * Push a child to the children list.
+     * Can be usefull to push a custom component that doesn't have a dedicated builtin method.
+     *
      * @throws ParentException
      */
     public function push(string|ComponentAbstract $child): ComponentAbstract
@@ -71,6 +107,13 @@ trait IsParent
         return $child;
     }
 
+    /**
+     * Prepending a child will ensure it's always added before any other pushed child.
+     *
+     * @param ComponentAbstract $component
+     * @param string|null $id
+     * @return ComponentAbstract|IsParent
+     */
     public function prependChild(ComponentAbstract $component, string $id = null): self
     {
         $this->childrenToPreprend[$id] = $this->addChild($component, $id);
@@ -78,11 +121,41 @@ trait IsParent
         return $this;
     }
 
+    /**
+     * Appending a child will ensure it's always added at the end of the children list.
+     * For instance, the signature at the end of a template..
+     *
+     * @param ComponentAbstract $component
+     * @param string|null $id
+     * @return ComponentAbstract|IsParent
+     */
     public function appendChild(ComponentAbstract $component, string $id = null): self
     {
         $this->childrenToAppend[$id] = $this->addChild($component, $id);
 
         return $this;
+    }
+
+    /**
+     * Remove a child from the prepend list.
+     *
+     * @param string $id
+     * @return ComponentAbstract
+     */
+    public function unPrependChild(string $id): ComponentAbstract
+    {
+        return $this->removeChildFromPool($this->childrenToPreprend, $id);
+    }
+
+    /**
+     * Remove a child from the append list.
+     *
+     * @param string $id
+     * @return ComponentAbstract
+     */
+    public function unAppendChild(string $id): ComponentAbstract
+    {
+        return $this->removeChildFromPool($this->childrenToAppend, $id);
     }
 
     private function addChild(ComponentAbstract $component, string $id = null): ComponentAbstract
@@ -97,15 +170,5 @@ trait IsParent
         unset($pool[$id]);
 
         return $component;
-    }
-
-    public function unPrependChild(string $id): ComponentAbstract
-    {
-        return $this->removeChildFromPool($this->childrenToPreprend, $id);
-    }
-
-    public function unAppendChild(string $id): ComponentAbstract
-    {
-        return $this->removeChildFromPool($this->childrenToAppend, $id);
     }
 }

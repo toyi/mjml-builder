@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder\Tests\Feature;
+namespace Toyi\MjmlBuilder\Tests\Unit;
 
 use Closure;
 use Toyi\MjmlBuilder\Components\ColumnComponent;

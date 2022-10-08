@@ -1,6 +1,6 @@
 <?php
 
-namespace Toyi\MjmlBuilder\Tests\Feature;
+namespace Toyi\MjmlBuilder\Tests\Unit;
 
 use Toyi\MjmlBuilder\Components\TextComponent;
 use Toyi\MjmlBuilder\Tests\TestCase;
