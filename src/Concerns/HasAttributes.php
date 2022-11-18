@@ -18,10 +18,17 @@ trait HasAttributes
         return $this->attributes;
     }
 
+    public function mergeAttributes(array $attributes): self
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
+
+        return $this;
+    }
+
     public function setAttributes(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
-            if (! is_int($key)) {
+            if (!is_int($key)) {
                 continue;
             }
 

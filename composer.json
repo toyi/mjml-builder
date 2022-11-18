@@ -39,6 +39,7 @@
         }
     },
     "scripts": {
+        "test": "./vendor/bin/phpunit tests",
         "pint" : "./vendor/bin/pint --preset laravel"
     }
 }
