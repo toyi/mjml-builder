@@ -6,9 +6,10 @@ use DeepCopy\DeepCopy;
 use Toyi\MjmlBuilder\Components\BodyComponent;
 use Toyi\MjmlBuilder\Components\HeadComponent;
 use Toyi\MjmlBuilder\Components\MjmlComponent;
+use Toyi\MjmlBuilder\Contracts\MjmlBuilderContract;
 use Toyi\MjmlBuilder\Utils\ArrayToInlineAttributes;
 
-class MjmlBuilder
+class MjmlBuilder implements MjmlBuilderContract
 {
     protected MjmlComponent $mjml;
 
