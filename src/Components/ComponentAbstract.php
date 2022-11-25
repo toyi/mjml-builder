@@ -22,6 +22,8 @@ abstract class ComponentAbstract
      */
     protected string|array|null $content = null;
 
+    protected string $contentGlue = '<br />';
+
     /**
      * Is this an ending tag ? (https://documentation.mjml.io/#ending-tags)
      *
@@ -46,6 +48,20 @@ abstract class ComponentAbstract
     public function isEndingTag(): bool
     {
         return $this->isEndingTag;
+    }
+
+    public function contentGlue(string $glue): self
+    {
+        $this->contentGlue = $glue;
+
+        return $this;
+    }
+
+    public function noContentGlue(): self
+    {
+        $this->contentGlue = '';
+
+        return $this;
     }
 
     public function setContent(null|string|array $content = null): self
@@ -94,7 +110,7 @@ abstract class ComponentAbstract
         $content = (array) $this->content;
         $content = array_filter($content, fn (?string $content) => $content !== null);
 
-        return implode('<br />', $content);
+        return implode($this->contentGlue, $content);
     }
 
     /**

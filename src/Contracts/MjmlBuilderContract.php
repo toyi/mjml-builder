@@ -1,6 +1,7 @@
-<?php namespace Toyi\MjmlBuilder\Contracts;
+<?php
+
+namespace Toyi\MjmlBuilder\Contracts;
 
 interface MjmlBuilderContract
 {
-
 }
